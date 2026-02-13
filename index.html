@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Valentine 💘</title>
 
 <style>
@@ -16,19 +15,20 @@ body{
 
 /* MAIN BOX */
 .box{
-  margin-top:25vh;
+  margin-top:20vh;
+  padding:10px;
 }
 
 button{
-  padding:12px 20px;
-  font-size:18px;
+  padding:12px 18px;
+  font-size:16px;
   border:none;
   border-radius:12px;
-  margin:10px;
+  margin:8px;
   cursor:pointer;
 }
 
-/* LETTER LOOK */
+/* POPUP */
 .popup{
   position:fixed;
   inset:0;
@@ -40,8 +40,8 @@ button{
 
 .popupBox{
   width:90%;
-  max-width:350px;
-  padding:25px;
+  max-width:360px;
+  padding:22px;
   border-radius:15px;
   background:#fdf5e6 url("https://www.transparenttextures.com/patterns/aged-paper.png");
   border:2px solid #c9a66b;
@@ -51,16 +51,16 @@ button{
 }
 
 @keyframes pop{
-  from{transform:scale(.5);opacity:0}
+  from{transform:scale(.6);opacity:0}
   to{transform:scale(1);opacity:1}
 }
 
 /* HEARTS */
 .heart{
   position:fixed;
-  bottom:-20px;
-  font-size:22px;
-  animation:float 5s linear infinite;
+  bottom:-10px;
+  font-size:20px;
+  animation:float 4s linear infinite;
 }
 
 @keyframes float{
@@ -71,7 +71,7 @@ button{
 /* FIREWORKS */
 .firework{
   position:fixed;
-  font-size:24px;
+  font-size:22px;
   animation:boom 1s ease-out forwards;
 }
 
@@ -96,17 +96,18 @@ button{
 <button onclick="no()">NO 😢</button>
 </div>
 
-<!-- LETTER POPUP -->
+<!-- LETTER -->
 <div class="popup" id="letterPopup">
   <div class="popupBox" id="letterContent">
     <h3>📩 A letter from your Honeyboo</h3>
-    <button onclick="openLetter()">Open Letter 💌</button>
+    <p>Tap open 💌</p>
+    <button onclick="openLetter()">Open Letter</button>
   </div>
 </div>
 
 <script>
 
-/* MUSIC PLAY */
+/* PLAY MUSIC ON FIRST TAP */
 document.body.addEventListener("click",()=>{
   document.getElementById("music").play();
 },{once:true});
@@ -121,40 +122,48 @@ function yes(){
   fireworks();
   setTimeout(()=>{
     document.getElementById("letterPopup").style.display="flex";
-  },800);
+  },700);
 }
 
 /* OPEN LETTER */
 function openLetter(){
   document.getElementById("letterContent").innerHTML=`
-  <p style="line-height:1.6;font-size:18px;">
-  My dearest <b>Kuchupuchu, Phuljhadi, Jaanu, Brownie, Kanmani, Honeyboo</b> 💖<br><br>
+  <p style="line-height:1.6;font-size:17px;">
 
-  I love u my sweetheart,<br>
+  I love u my sweetheart 💖<br><br>
+
+  I love my Kuchupuchu 💗<br>
+  I love my Phuljhadi 💗<br>
+  I love my Jaanu 💗<br>
+  I love my Brownie 💗<br>
+  I love my Kanmani 💗<br>
+  I love my Honeyboo 💗<br><br>
+
   No matter what happens,<br>
   I won't stop loving u ever.<br><br>
 
-  Happy Valentine's Day Meri Dharampatni 😘<br><br>
+  Happy Valentine's Day<br>
+  Meri Dharampatni 😘<br><br>
 
   Forever yours 💍
   </p>
   `;
 }
 
-/* HEARTS */
+/* FLOATING HEARTS */
 setInterval(()=>{
   let h=document.createElement("div");
   h.innerHTML="💖";
   h.className="heart";
   h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(18+Math.random()*20)+"px";
+  h.style.fontSize=(16+Math.random()*18)+"px";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
+  setTimeout(()=>h.remove(),4000);
 },500);
 
 /* FIREWORKS */
 function fireworks(){
-  for(let i=0;i<15;i++){
+  for(let i=0;i<18;i++){
     let f=document.createElement("div");
     f.innerHTML="✨";
     f.className="firework";
