@@ -2,23 +2,65 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Valentine 💘</title>
+
+<title>Valentine 💘</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
+  font-family:sans-serif;
   text-align:center;
-  overflow:hidden;
   background:linear-gradient(135deg,#ff9ec4,#ffd6e7);
+  overflow:hidden;
 }
 
-/* Floating hearts */
+/* MAIN BOX */
+.box{
+  margin-top:25vh;
+}
+
+button{
+  padding:12px 20px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  margin:10px;
+  cursor:pointer;
+}
+
+/* LETTER LOOK */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.popupBox{
+  width:90%;
+  max-width:350px;
+  padding:25px;
+  border-radius:15px;
+  background:#fdf5e6 url("https://www.transparenttextures.com/patterns/aged-paper.png");
+  border:2px solid #c9a66b;
+  color:#5a3e2b;
+  font-family:Georgia,serif;
+  animation:pop .5s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* HEARTS */
 .heart{
   position:fixed;
   bottom:-20px;
-  font-size:20px;
-  animation:float 6s linear infinite;
+  font-size:22px;
+  animation:float 5s linear infinite;
 }
 
 @keyframes float{
@@ -26,127 +68,102 @@ body{
   to{transform:translateY(-110vh)}
 }
 
-/* Center box */
-.box{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  width:90%;
-  max-width:320px;
-  margin:auto;
-  margin-top:25vh;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-button{
-  padding:12px 20px;
-  margin:10px;
-  font-size:16px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.yes{background:#ff4d88;color:white}
-.no{background:gray;color:white}
-
-/* Popup overlay */
-.overlay{
+/* FIREWORKS */
+.firework{
   position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
+  font-size:24px;
+  animation:boom 1s ease-out forwards;
 }
 
-/* Old letter look */
-.letter{
-  background:#fdf5e6 url("https://www.transparenttextures.com/patterns/aged-paper.png");
-  padding:25px;
-  border-radius:15px;
-  width:85%;
-  max-width:320px;
-  color:#5a3e2b;
-  font-family:Georgia,serif;
-  border:2px solid #c9a66b;
-  animation:pop .4s ease;
-}
-
-@keyframes pop{
-  from{transform:scale(.5);opacity:0}
-  to{transform:scale(1);opacity:1}
+@keyframes boom{
+  from{transform:scale(.5);opacity:1}
+  to{transform:scale(2.5);opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Music -->
+<!-- MUSIC -->
 <audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9bce08.mp3?filename=romantic-love-11786.mp3">
 </audio>
 
-<div class="box" id="mainBox">
-<h2>Will you be my Valentine? 💖</h2>
-<button class="yes" onclick="sayYes()">Yes 😍</button>
-<button class="no" onclick="sayNo()">No 😜</button>
+<!-- MAIN -->
+<div class="box">
+<h2>Will you be my Valentine? 💘</h2>
+<button onclick="yes()">YES 💖</button>
+<button onclick="no()">NO 😢</button>
 </div>
 
-<!-- Letter popup -->
-<div class="overlay" id="overlay">
-  <div class="letter" id="letterBox">
-    <h3>💌 My Love Letter</h3>
-    <p>
-    My Dearest Love 💖,<br><br>
-    I love u my sweetheart,<br>
-    No matter what happens,<br>
-    I won't stop loving u ever.<br><br>
-    Happy Valentine's Day<br>
-    Meri Dharampatni :3 💕<br><br>
-    Forever yours 💍
-    </p>
-    <button onclick="closeLetter()">Close 💗</button>
+<!-- LETTER POPUP -->
+<div class="popup" id="letterPopup">
+  <div class="popupBox" id="letterContent">
+    <h3>📩 A letter from your Honeyboo</h3>
+    <button onclick="openLetter()">Open Letter 💌</button>
   </div>
 </div>
 
 <script>
 
-/* Music start on first tap */
+/* MUSIC PLAY */
 document.body.addEventListener("click",()=>{
   document.getElementById("music").play();
 },{once:true});
 
-function sayNo(){
-  alert("That answer is not allowed 😤 Choose again!");
+/* NO BUTTON */
+function no(){
+  alert("Answer not allowed 😤 Choose again!");
 }
 
-function sayYes(){
-  document.getElementById("mainBox").innerHTML=
-  "<h2>YAYYYY 😍💖<br>I'll love u till eternity my Dharampatni 💍</h2>\
-  <button onclick='showLetter()'>Open Letter 💌</button>";
+/* YES BUTTON */
+function yes(){
+  fireworks();
+  setTimeout(()=>{
+    document.getElementById("letterPopup").style.display="flex";
+  },800);
 }
 
-function showLetter(){
-  document.getElementById("overlay").style.display="flex";
+/* OPEN LETTER */
+function openLetter(){
+  document.getElementById("letterContent").innerHTML=`
+  <p style="line-height:1.6;font-size:18px;">
+  My dearest <b>Kuchupuchu, Phuljhadi, Jaanu, Brownie, Kanmani, Honeyboo</b> 💖<br><br>
+
+  I love u my sweetheart,<br>
+  No matter what happens,<br>
+  I won't stop loving u ever.<br><br>
+
+  Happy Valentine's Day Meri Dharampatni 😘<br><br>
+
+  Forever yours 💍
+  </p>
+  `;
 }
 
-function closeLetter(){
-  document.getElementById("overlay").style.display="none";
-}
-
-/* Floating hearts generator */
+/* HEARTS */
 setInterval(()=>{
   let h=document.createElement("div");
-  h.className="heart";
   h.innerHTML="💖";
+  h.className="heart";
   h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(15+Math.random()*25)+"px";
+  h.style.fontSize=(18+Math.random()*20)+"px";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
+  setTimeout(()=>h.remove(),5000);
 },500);
 
+/* FIREWORKS */
+function fireworks(){
+  for(let i=0;i<15;i++){
+    let f=document.createElement("div");
+    f.innerHTML="✨";
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
 </script>
 
 </body>
