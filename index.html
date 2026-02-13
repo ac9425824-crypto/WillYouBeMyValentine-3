@@ -1,199 +1,152 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Valentine 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Valentine 💘</title>
 
 <style>
 body{
   margin:0;
-  font-family:'Comic Sans MS',cursive;
+  font-family:Arial;
   text-align:center;
-  background:linear-gradient(45deg,#ff9a9e,#fecfef,#fad0c4);
   overflow:hidden;
+  background:linear-gradient(135deg,#ff9ec4,#ffd6e7);
 }
 
-/* Center */
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation:float 6s linear infinite;
 }
 
-/* Main box */
+@keyframes float{
+  from{transform:translateY(0)}
+  to{transform:translateY(-110vh)}
+}
+
+/* Center box */
 .box{
   background:white;
   padding:20px;
   border-radius:20px;
-  box-shadow:0 0 20px rgba(255,0,100,0.4);
   width:90%;
-  max-width:360px;
-  z-index:2;
+  max-width:320px;
+  margin:auto;
+  margin-top:25vh;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Buttons */
 button{
   padding:12px 20px;
+  margin:10px;
   font-size:16px;
   border:none;
   border-radius:10px;
-  margin:10px;
   cursor:pointer;
 }
 
-.yes{background:#ff2e63;color:white;}
-.no{background:grey;color:white;}
+.yes{background:#ff4d88;color:white}
+.no{background:gray;color:white}
 
-/* Hearts */
-.heart{
+/* Popup overlay */
+.overlay{
   position:fixed;
-  font-size:20px;
-  animation:float 6s linear infinite;
-  z-index:1;
-}
-
-@keyframes float{
-  0%{transform:translateY(100vh);}
-  100%{transform:translateY(-10vh);}
-}
-
-/* Popup */
-.popup{
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.4);
   display:none;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:white;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Old letter look */
+.letter{
+  background:#fdf5e6 url("https://www.transparenttextures.com/patterns/aged-paper.png");
   padding:25px;
   border-radius:15px;
   width:85%;
   max-width:320px;
-  z-index:5;
-  animation:fadeIn .5s;
+  color:#5a3e2b;
+  font-family:Georgia,serif;
+  border:2px solid #c9a66b;
+  animation:pop .4s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0; transform:translate(-50%,-40%);}
-  to{opacity:1; transform:translate(-50%,-50%);}
-}
-
-/* Letter */
-.letter{
-  display:none;
-  animation:openLetter 1s forwards;
-}
-
-@keyframes openLetter{
-  from{transform:scaleY(0);}
-  to{transform:scaleY(1);}
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
+<!-- Music -->
 <audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9bce08.mp3?filename=romantic-love-11786.mp3">
 </audio>
 
-<div class="container">
-<div class="box" id="box">
-<h2>💖 Will you be my Valentine? 💖</h2>
-
-<button class="yes" onclick="yes()">Yes 😍</button>
-<button class="no" onclick="moveNo()">No 😜</button>
-</div>
+<div class="box" id="mainBox">
+<h2>Will you be my Valentine? 💖</h2>
+<button class="yes" onclick="sayYes()">Yes 😍</button>
+<button class="no" onclick="sayNo()">No 😜</button>
 </div>
 
-<!-- Honey bear popup -->
-<div class="popup" id="notice">
-<h3>🐻💌</h3>
-<p>You have a letter from your honey bear 💕</p>
-<button onclick="showEnvelope()">Tap to see 💌</button>
-</div>
-
-<!-- Envelope -->
-<div class="popup" id="envelope">
-<h3>✉️</h3>
-<p>A love letter awaits you…</p>
-<button onclick="openLetter()">Open Letter 💖</button>
-</div>
-
-<!-- Letter -->
-<div class="popup letter" id="letter">
-<h3>💌 My Love</h3>
-<p>
-I love u my sweetheart,<br>
-No matter what happens I won't stop loving u ever.<br><br>
-Happy Valentine's Day Meri Dharampatni :3 💖
-</p>
+<!-- Letter popup -->
+<div class="overlay" id="overlay">
+  <div class="letter" id="letterBox">
+    <h3>💌 My Love Letter</h3>
+    <p>
+    My Dearest Love 💖,<br><br>
+    I love u my sweetheart,<br>
+    No matter what happens,<br>
+    I won't stop loving u ever.<br><br>
+    Happy Valentine's Day<br>
+    Meri Dharampatni :3 💕<br><br>
+    Forever yours 💍
+    </p>
+    <button onclick="closeLetter()">Close 💗</button>
+  </div>
 </div>
 
 <script>
-/* Start music on first touch */
+
+/* Music start on first tap */
 document.body.addEventListener("click",()=>{
-document.getElementById("music").play();
+  document.getElementById("music").play();
 },{once:true});
 
-/* YES */
-function yes(){
-document.getElementById("box").innerHTML=
-"<h2>YAYYY 😍💖<br>I’ll love you till eternity,<br>my Dharampatni 💍😘</h2>";
-
-fireworks();
-
-setTimeout(()=>{
-document.getElementById("notice").style.display="block";
-},1200);
+function sayNo(){
+  alert("That answer is not allowed 😤 Choose again!");
 }
 
-/* Move No */
-function moveNo(){
-alert("That answer is not allowed 😜");
+function sayYes(){
+  document.getElementById("mainBox").innerHTML=
+  "<h2>YAYYYY 😍💖<br>I'll love u till eternity my Dharampatni 💍</h2>\
+  <button onclick='showLetter()'>Open Letter 💌</button>";
 }
 
-/* Show envelope */
-function showEnvelope(){
-document.getElementById("notice").style.display="none";
-document.getElementById("envelope").style.display="block";
+function showLetter(){
+  document.getElementById("overlay").style.display="flex";
 }
 
-/* Open letter */
-function openLetter(){
-document.getElementById("envelope").style.display="none";
-document.getElementById("letter").style.display="block";
+function closeLetter(){
+  document.getElementById("overlay").style.display="none";
 }
 
-/* Floating hearts */
+/* Floating hearts generator */
 setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="💖";
-h.style.left=Math.random()*100+"%";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-},600);
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=(15+Math.random()*25)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},500);
 
-/* Fireworks */
-function fireworks(){
-for(let i=0;i<25;i++){
-let f=document.createElement("div");
-f.style.position="fixed";
-f.style.left="50%";
-f.style.top="50%";
-f.style.width="6px";
-f.style.height="6px";
-f.style.borderRadius="50%";
-f.style.background=`hsl(${Math.random()*360},100%,50%)`;
-f.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`;
-f.style.transition="1s";
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),1000);
-}
-}
 </script>
 
 </body>
