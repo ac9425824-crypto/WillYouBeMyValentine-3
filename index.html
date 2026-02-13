@@ -1,106 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Valentine Letter</title>
+<title>Valentine</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-  background: #c48ca0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+body{
+  margin:0;
+  font-family:Georgia, serif;
+  background:#c48ca0;
+  overflow:hidden;
+  text-align:center;
 }
 
-/* FIRST SCREEN */
-#valentineScreen {
-  text-align: center;
-  color: white;
+/* SCREEN */
+.screen{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:white;
 }
 
-#valentineScreen button {
-  padding: 12px 20px;
-  font-size: 18px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  margin: 10px;
+/* CARD */
+.card{
+  background:#f5e6d3;
+  padding:25px;
+  border-radius:20px;
+  width:90%;
+  max-width:400px;
+  box-shadow:0 0 20px rgba(0,0,0,0.2);
+  color:black;
 }
 
-/* MAIN CARD */
-.card {
-  background: #f5e6d3;
-  padding: 30px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  z-index: 1;
-  position: relative;
-  display: none;
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+  margin:10px;
 }
 
-button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
+#mainSite{display:none;}
+#letter{display:none; line-height:1.8;}
+
+.heart{
+  position:absolute;
+  font-size:22px;
+  animation:float 6s linear infinite;
 }
 
-#letter {
-  display: none;
-  margin-top: 15px;
-  line-height: 1.8;
+@keyframes float{
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(-110vh);opacity:0;}
 }
 
-.heart {
-  position: absolute;
-  font-size: 24px;
-  animation: floatUp linear infinite;
+.sparkle{
+  position:absolute;
+  font-size:24px;
+  animation:boom 1s linear forwards;
 }
 
-.sparkle {
-  position: absolute;
-  font-size: 24px;
-  animation: explode 1s linear forwards;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity: 1;}
-  100% { transform: translateY(-120vh); opacity: 0;}
-}
-
-@keyframes explode {
-  0% {transform: scale(1); opacity:1;}
-  100% {transform: scale(2) translateY(-200px); opacity:0;}
+@keyframes boom{
+  0%{opacity:1;transform:scale(1);}
+  100%{opacity:0;transform:scale(2) translateY(-200px);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- FIRST SCREEN -->
-<div id="valentineScreen">
+<!-- FIRST PAGE -->
+<div id="first" class="screen">
   <h1>Will you be my Valentine? 💍</h1>
-  <button onclick="sayYes()">YES 💖</button>
-  <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+  <div>
+    <button onclick="yesClick()">YES 💖</button>
+    <button id="noBtn" onmouseover="runNo()">NO 😜</button>
+  </div>
 </div>
 
 <!-- MAIN SITE -->
-<div class="card" id="mainCard">
-  <h2>💌 A letter from your Honeybear 💗</h2>
-  <button onclick="openLetter()">Open Letter</button>
+<div id="mainSite" class="screen">
+  <div class="card">
+    <h2>💌 A letter from your Honeybear 💗</h2>
+    <button onclick="openLetter()">Open Letter</button>
 
-  <div id="letter">
-    <p>
+    <div id="letter">
+      <p>
       I love u my sweetheart 💗<br><br>
 
       I love u my Kuchupuchu 💗<br>
@@ -117,33 +105,49 @@ button {
       Meri Dharampatni 😘<br><br>
 
       Forever yours 💍
-    </p>
+      </p>
+    </div>
   </div>
 </div>
 
-<audio id="music" autoplay loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="https://files.catbox.moe/8lqj9p.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// YES BUTTON
-function sayYes(){
+
+// YES CLICK
+function yesClick(){
+  document.getElementById("first").style.display="none";
+  document.getElementById("mainSite").style.display="flex";
+
+  startMusic();
   fireworks();
-  document.getElementById("valentineScreen").style.display="none";
-  document.getElementById("mainCard").style.display="block";
+}
+
+// START MUSIC (works after click)
+function startMusic(){
+  const m=document.getElementById("music");
+  m.play().catch(()=>{});
 }
 
 // RUNNING NO BUTTON
-function moveNo(){
-  const btn = document.getElementById("noBtn");
-  btn.style.position="absolute";
-  btn.style.left = Math.random()*80+"%";
-  btn.style.top = Math.random()*80+"%";
+function runNo(){
+  const b=document.getElementById("noBtn");
+  b.style.position="absolute";
+  b.style.left=Math.random()*80+"%";
+  b.style.top=Math.random()*80+"%";
+}
+
+// OPEN LETTER
+function openLetter(){
+  document.getElementById("letter").style.display="block";
 }
 
 // FIREWORKS ✨
 function fireworks(){
-  for(let i=0;i<25;i++){
+  for(let i=0;i<30;i++){
     let s=document.createElement("div");
     s.className="sparkle";
     s.innerText="✨";
@@ -154,24 +158,17 @@ function fireworks(){
   }
 }
 
-// Open letter
-function openLetter(){
-  document.getElementById("letter").style.display="block";
+// FLOATING HEARTS
+function hearts(){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
 }
+setInterval(hearts,500);
 
-// Floating hearts
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.textContent = "💖";
-  heart.style.left = Math.random() * window.innerWidth + "px";
-  heart.style.fontSize = (20 + Math.random() * 20) + "px";
-  heart.style.animationDuration = (3 + Math.random() * 5) + "s";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 8000);
-}
-
-setInterval(createHeart, 400);
 </script>
 
 </body>
