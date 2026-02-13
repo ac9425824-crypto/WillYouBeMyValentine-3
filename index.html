@@ -17,6 +17,22 @@ body {
   position: relative;
 }
 
+/* FIRST SCREEN */
+#valentineScreen {
+  text-align: center;
+  color: white;
+}
+
+#valentineScreen button {
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+/* MAIN CARD */
 .card {
   background: #f5e6d3;
   padding: 30px;
@@ -27,6 +43,7 @@ body {
   box-shadow: 0 0 20px rgba(0,0,0,0.2);
   z-index: 1;
   position: relative;
+  display: none;
 }
 
 button {
@@ -50,22 +67,35 @@ button {
   animation: floatUp linear infinite;
 }
 
+.sparkle {
+  position: absolute;
+  font-size: 24px;
+  animation: explode 1s linear forwards;
+}
+
 @keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-120vh) scale(1.2);
-    opacity: 0;
-  }
+  0% { transform: translateY(0); opacity: 1;}
+  100% { transform: translateY(-120vh); opacity: 0;}
+}
+
+@keyframes explode {
+  0% {transform: scale(1); opacity:1;}
+  100% {transform: scale(2) translateY(-200px); opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<!-- FIRST SCREEN -->
+<div id="valentineScreen">
+  <h1>Will you be my Valentine? 💍</h1>
+  <button onclick="sayYes()">YES 💖</button>
+  <button id="noBtn" onmouseover="moveNo()">NO 😜</button>
+</div>
+
+<!-- MAIN SITE -->
+<div class="card" id="mainCard">
   <h2>💌 A letter from your Honeybear 💗</h2>
   <button onclick="openLetter()">Open Letter</button>
 
@@ -96,7 +126,35 @@ button {
 </audio>
 
 <script>
-// Open letter function
+// YES BUTTON
+function sayYes(){
+  fireworks();
+  document.getElementById("valentineScreen").style.display="none";
+  document.getElementById("mainCard").style.display="block";
+}
+
+// RUNNING NO BUTTON
+function moveNo(){
+  const btn = document.getElementById("noBtn");
+  btn.style.position="absolute";
+  btn.style.left = Math.random()*80+"%";
+  btn.style.top = Math.random()*80+"%";
+}
+
+// FIREWORKS ✨
+function fireworks(){
+  for(let i=0;i<25;i++){
+    let s=document.createElement("div");
+    s.className="sparkle";
+    s.innerText="✨";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1000);
+  }
+}
+
+// Open letter
 function openLetter(){
   document.getElementById("letter").style.display="block";
 }
@@ -110,13 +168,9 @@ function createHeart() {
   heart.style.fontSize = (20 + Math.random() * 20) + "px";
   heart.style.animationDuration = (3 + Math.random() * 5) + "s";
   document.body.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 8000);
+  setTimeout(() => heart.remove(), 8000);
 }
 
-// Create hearts continuously
 setInterval(createHeart, 400);
 </script>
 
