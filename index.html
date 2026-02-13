@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>My Valentine 💖</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,28 +9,33 @@ body{
   margin:0;
   font-family:'Comic Sans MS',cursive;
   text-align:center;
-  overflow:hidden;
   background:linear-gradient(45deg,#ff9a9e,#fecfef,#fad0c4);
+  overflow:hidden;
 }
 
-/* Center box */
+/* Center */
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+/* Main box */
 .box{
   background:white;
-  padding:25px;
+  padding:20px;
   border-radius:20px;
   box-shadow:0 0 20px rgba(255,0,100,0.4);
   width:90%;
-  max-width:400px;
-  margin:auto;
-  position:relative;
-  top:50%;
-  transform:translateY(-50%);
+  max-width:360px;
+  z-index:2;
 }
 
 /* Buttons */
 button{
   padding:12px 20px;
-  font-size:18px;
+  font-size:16px;
   border:none;
   border-radius:10px;
   margin:10px;
@@ -39,14 +43,14 @@ button{
 }
 
 .yes{background:#ff2e63;color:white;}
-.no{background:grey;color:white;position:absolute;}
+.no{background:grey;color:white;}
 
-/* Floating hearts */
+/* Hearts */
 .heart{
-  position:absolute;
-  color:#ff2e63;
-  font-size:22px;
+  position:fixed;
+  font-size:20px;
   animation:float 6s linear infinite;
+  z-index:1;
 }
 
 @keyframes float{
@@ -54,7 +58,7 @@ button{
   100%{transform:translateY(-10vh);}
 }
 
-/* Love letter popup */
+/* Popup */
 .popup{
   display:none;
   position:fixed;
@@ -64,25 +68,26 @@ button{
   background:white;
   padding:25px;
   border-radius:15px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
   width:85%;
-  max-width:350px;
-  z-index:10;
+  max-width:320px;
+  z-index:5;
+  animation:fadeIn .5s;
 }
 
-/* Fireworks */
-.firework{
-  position:fixed;
-  width:6px;
-  height:6px;
-  background:red;
-  border-radius:50%;
-  animation:explode 1s ease-out forwards;
+@keyframes fadeIn{
+  from{opacity:0; transform:translate(-50%,-40%);}
+  to{opacity:1; transform:translate(-50%,-50%);}
 }
 
-@keyframes explode{
-  from{opacity:1;}
-  to{transform:translate(var(--x),var(--y));opacity:0;}
+/* Letter */
+.letter{
+  display:none;
+  animation:openLetter 1s forwards;
+}
+
+@keyframes openLetter{
+  from{transform:scaleY(0);}
+  to{transform:scaleY(1);}
 }
 </style>
 </head>
@@ -90,47 +95,76 @@ button{
 <body>
 
 <!-- MUSIC -->
-<audio id="music" autoplay loop>
+<audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9bce08.mp3?filename=romantic-love-11786.mp3">
 </audio>
 
+<div class="container">
 <div class="box" id="box">
 <h2>💖 Will you be my Valentine? 💖</h2>
+
 <button class="yes" onclick="yes()">Yes 😍</button>
-<button class="no" id="noBtn" onmouseover="moveNo()">No 😜</button>
+<button class="no" onclick="moveNo()">No 😜</button>
+</div>
 </div>
 
-<!-- LOVE LETTER -->
-<div class="popup" id="letter">
-<h3>💌 Love Letter</h3>
+<!-- Honey bear popup -->
+<div class="popup" id="notice">
+<h3>🐻💌</h3>
+<p>You have a letter from your honey bear 💕</p>
+<button onclick="showEnvelope()">Tap to see 💌</button>
+</div>
+
+<!-- Envelope -->
+<div class="popup" id="envelope">
+<h3>✉️</h3>
+<p>A love letter awaits you…</p>
+<button onclick="openLetter()">Open Letter 💖</button>
+</div>
+
+<!-- Letter -->
+<div class="popup letter" id="letter">
+<h3>💌 My Love</h3>
 <p>
 I love u my sweetheart,<br>
 No matter what happens I won't stop loving u ever.<br><br>
 Happy Valentine's Day Meri Dharampatni :3 💖
 </p>
-<button onclick="closeLetter()">Close 💕</button>
 </div>
 
 <script>
-/* Mobile autoplay fix */
+/* Start music on first touch */
 document.body.addEventListener("click",()=>{
 document.getElementById("music").play();
 },{once:true});
 
-/* YES CLICK */
+/* YES */
 function yes(){
 document.getElementById("box").innerHTML=
-"<h2>YAYYYY 😍💖<br>I’ll love you till eternity, my Dharampatni 💍😘</h2>";
+"<h2>YAYYY 😍💖<br>I’ll love you till eternity,<br>my Dharampatni 💍😘</h2>";
 
-startFireworks();
-setTimeout(()=>{document.getElementById("letter").style.display="block";},1500);
+fireworks();
+
+setTimeout(()=>{
+document.getElementById("notice").style.display="block";
+},1200);
 }
 
-/* Move NO button */
+/* Move No */
 function moveNo(){
-let b=document.getElementById("noBtn");
-b.style.top=Math.random()*80+"%";
-b.style.left=Math.random()*80+"%";
+alert("That answer is not allowed 😜");
+}
+
+/* Show envelope */
+function showEnvelope(){
+document.getElementById("notice").style.display="none";
+document.getElementById("envelope").style.display="block";
+}
+
+/* Open letter */
+function openLetter(){
+document.getElementById("envelope").style.display="none";
+document.getElementById("letter").style.display="block";
 }
 
 /* Floating hearts */
@@ -139,29 +173,26 @@ let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"%";
-h.style.fontSize=(20+Math.random()*20)+"px";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
-},400);
+},600);
 
 /* Fireworks */
-function startFireworks(){
-for(let i=0;i<40;i++){
+function fireworks(){
+for(let i=0;i<25;i++){
 let f=document.createElement("div");
-f.className="firework";
+f.style.position="fixed";
 f.style.left="50%";
 f.style.top="50%";
+f.style.width="6px";
+f.style.height="6px";
+f.style.borderRadius="50%";
 f.style.background=`hsl(${Math.random()*360},100%,50%)`;
-f.style.setProperty('--x',(Math.random()*400-200)+"px");
-f.style.setProperty('--y',(Math.random()*400-200)+"px");
+f.style.transform=`translate(${Math.random()*400-200}px,${Math.random()*400-200}px)`;
+f.style.transition="1s";
 document.body.appendChild(f);
 setTimeout(()=>f.remove(),1000);
 }
-}
-
-/* Close letter */
-function closeLetter(){
-document.getElementById("letter").style.display="none";
 }
 </script>
 
