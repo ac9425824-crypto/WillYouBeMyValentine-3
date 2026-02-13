@@ -2,34 +2,45 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<!-- IMPORTANT FOR MOBILE -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Valentine</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Georgia, serif;
   background:#c48ca0;
-  overflow:hidden;
   text-align:center;
+  overflow:hidden;
 }
 
 /* SCREEN */
 .screen{
-  height:100vh;
+  min-height:100svh; /* better than 100vh for phones */
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   color:white;
+  padding:20px;
 }
 
 /* CARD */
 .card{
   background:#f5e6d3;
-  padding:25px;
+  padding:20px;
   border-radius:20px;
-  width:90%;
-  max-width:400px;
+  width:95%;
+  max-width:420px;
+  max-height:80vh;
+  overflow:auto; /* scroll inside if needed */
   box-shadow:0 0 20px rgba(0,0,0,0.2);
   color:black;
 }
@@ -40,16 +51,24 @@ button{
   border-radius:10px;
   font-size:16px;
   cursor:pointer;
-  margin:10px;
+  margin:8px;
+  max-width:90vw;
+}
+
+h1,h2{
+  max-width:95vw;
 }
 
 #mainSite{display:none;}
 #letter{display:none; line-height:1.8;}
 
+/* HEARTS */
 .heart{
-  position:absolute;
+  position:fixed;
+  bottom:-20px;
   font-size:22px;
   animation:float 6s linear infinite;
+  pointer-events:none;
 }
 
 @keyframes float{
@@ -57,10 +76,12 @@ button{
   100%{transform:translateY(-110vh);opacity:0;}
 }
 
+/* FIREWORKS */
 .sparkle{
-  position:absolute;
+  position:fixed;
   font-size:24px;
   animation:boom 1s linear forwards;
+  pointer-events:none;
 }
 
 @keyframes boom{
@@ -75,9 +96,10 @@ button{
 <!-- FIRST PAGE -->
 <div id="first" class="screen">
   <h1>Will you be my Valentine? 💍</h1>
+
   <div>
     <button onclick="yesClick()">YES 💖</button>
-    <button id="noBtn" onmouseover="runNo()">NO 😜</button>
+    <button id="noBtn" ontouchstart="runNo()" onmouseover="runNo()">NO 😜</button>
   </div>
 </div>
 
@@ -126,18 +148,22 @@ function yesClick(){
   fireworks();
 }
 
-// START MUSIC (works after click)
+// MUSIC
 function startMusic(){
   const m=document.getElementById("music");
   m.play().catch(()=>{});
 }
 
-// RUNNING NO BUTTON
+// RUNNING NO BUTTON (stays on screen)
 function runNo(){
   const b=document.getElementById("noBtn");
-  b.style.position="absolute";
-  b.style.left=Math.random()*80+"%";
-  b.style.top=Math.random()*80+"%";
+
+  const maxX = window.innerWidth - 100;
+  const maxY = window.innerHeight - 50;
+
+  b.style.position="fixed";
+  b.style.left = Math.random()*maxX + "px";
+  b.style.top = Math.random()*maxY + "px";
 }
 
 // OPEN LETTER
@@ -145,9 +171,9 @@ function openLetter(){
   document.getElementById("letter").style.display="block";
 }
 
-// FIREWORKS ✨
+// FIREWORKS
 function fireworks(){
-  for(let i=0;i<30;i++){
+  for(let i=0;i<25;i++){
     let s=document.createElement("div");
     s.className="sparkle";
     s.innerText="✨";
@@ -158,7 +184,7 @@ function fireworks(){
   }
 }
 
-// FLOATING HEARTS
+// HEARTS
 function hearts(){
   let h=document.createElement("div");
   h.className="heart";
